@@ -19,9 +19,9 @@ out/
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-Makefile
 *.cmake
 !CMakeLists.txt
+# Note: Keep our project Makefile, but ignore generated ones in build/
 
 # IDE
 .vscode/
