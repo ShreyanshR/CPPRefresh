@@ -23,8 +23,10 @@ cmake_install.cmake
 !CMakeLists.txt
 # Note: Keep our project Makefile, but ignore generated ones in build/
 
-# IDE
-.vscode/
+# IDE (but keep launch.json and tasks.json for debugging)
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
 .idea/
 *.swp
 *.swo
