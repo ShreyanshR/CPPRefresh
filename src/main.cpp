@@ -1,6 +1,7 @@
 #include <iostream>
 #include "utils.h"
 #include <ostream>
+#include <string>
 #include <vector>
 
 #define LOG(x) std::cout << x << std::endl;
@@ -64,6 +65,38 @@ std::ostream& operator<<(std::ostream& stream, const Vertex& vertex)
     return stream;
 }
 
+template<typename T>
+void Print(T value)
+{
+    std::cout<<value<<std::endl;
+}
+
+template<typename T, int N>
+class Array
+{
+    private:
+        T m_array[N];
+    public:
+        int getSize() const {return N;};
+
+};
+
+template<typename T, int N>
+class Second
+{
+private:
+    T m_array[N];
+
+public:
+    Second(const T& initialValue)
+    {
+        for(int i = 0; i < N; i++)
+            m_array[i] = initialValue;
+    }
+
+    int getSize() const { return N; }
+};
+
 int main() {
     /*LOG("Hello World");
     int var = 8;
@@ -97,7 +130,15 @@ int main() {
 
     //for (Vertex v: vertices)
     //    std::cout << v << std::endl;
+    Print(5);
+    Print("hello");
 
+    Array<std::string, 10> arrayS;
+    Array<int, 5> arrayI;
+    std::cout<<arrayS.getSize()<<std::endl;
+    std::cout<<arrayI.getSize()<<std::endl;
+
+    Second<std::string, 10> names("hello");
     
     std::cin.get();
     
