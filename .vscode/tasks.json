@@ -2,14 +2,41 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-debug",
+            "label": "CMake: Configure",
             "type": "shell",
-            "command": "make",
-            "args": ["debug"],
+            "command": "cmake",
+            "args": [
+                "-B",
+                "${workspaceFolder}/build",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "-S",
+                "${workspaceFolder}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "CMake: Build Debug",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--config",
+                "Debug"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
+            "dependsOn": "CMake: Configure",
             "problemMatcher": [
                 "$gcc"
             ],
@@ -19,20 +46,35 @@
             }
         },
         {
-            "label": "build-release",
+            "label": "build-debug",
+            "dependsOn": "CMake: Build Debug",
+            "group": "build"
+        },
+        {
+            "label": "CMake: Build Release",
             "type": "shell",
-            "command": "make",
-            "args": ["all"],
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--config",
+                "Release"
+            ],
             "group": "build",
             "problemMatcher": [
                 "$gcc"
             ]
         },
         {
-            "label": "clean",
+            "label": "CMake: Clean",
             "type": "shell",
-            "command": "make",
-            "args": ["clean"],
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--target",
+                "clean"
+            ],
             "group": "build",
             "problemMatcher": []
         }
