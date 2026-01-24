@@ -27,12 +27,17 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-# Source files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
+# Source files - exclude example files with their own main() functions
+file(GLOB_RECURSE ALL_SOURCES "src/*.cpp")
 file(GLOB_RECURSE HEADERS "include/*.h" "include/*.hpp")
 
+# Exclude example/test files that have their own main() functions
+list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/vector\\.cpp$")
+list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/vectors\\.cpp$")
+list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/unorderedMap\\.cpp$")
+
 # Create executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${HEADERS})
 
 # Optional: Add tests if using a testing framework
 # enable_testing()
