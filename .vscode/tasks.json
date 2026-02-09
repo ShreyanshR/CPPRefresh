@@ -51,6 +51,28 @@
             "group": "build"
         },
         {
+            "label": "build-raii",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--config",
+                "Debug",
+                "--target",
+                "RAII_standalone"
+            ],
+            "group": "build",
+            "dependsOn": "CMake: Configure",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
+        },
+        {
             "label": "CMake: Build Release",
             "type": "shell",
             "command": "cmake",

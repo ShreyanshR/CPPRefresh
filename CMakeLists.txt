@@ -39,6 +39,10 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/unorderedMap\\.cpp$")
 # Create executable
 add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${HEADERS})
 
+# Standalone target for debugging single files (e.g. RAII.cpp)
+add_executable(RAII_standalone src/RAII.cpp)
+target_compile_definitions(RAII_standalone PRIVATE RAII_STANDALONE)
+
 # Optional: Add tests if using a testing framework
 # enable_testing()
 # add_subdirectory(tests)
