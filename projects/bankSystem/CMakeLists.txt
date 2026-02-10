@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 3.15)
+project(bankSystem LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(BANKSYSTEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+add_executable(${PROJECT_NAME} ${BANKSYSTEM_SOURCES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
