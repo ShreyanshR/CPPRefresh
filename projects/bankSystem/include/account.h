@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ostream>
 #include <string>
 
 class Account {
@@ -11,11 +12,18 @@ public:
   Account(std::string name, int account_number, float balance = 0.0)
       : name_(name), account_number_(account_number), balance_(balance) {}
 
+  int get_account_number() const { return account_number_; }
+
   void deposit(float amount) {
+    // std::cout << "Please select which account: " << std::endl;
+    // int account_no;
+    // std::cin >> account_no;
     if (amount <= 0) {
       std::cout << "Please enter a valid number" << std::endl;
     } else {
+      // int account_to_insert = get_account_number()
       balance_ += amount;
+      std::cout << "Current balance after deposit " << balance_ << std::endl;
     }
   }
   void withdraw(float amount) {

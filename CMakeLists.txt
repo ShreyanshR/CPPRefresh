@@ -43,6 +43,9 @@ add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${HEADERS})
 add_executable(RAII_standalone src/RAII.cpp)
 target_compile_definitions(RAII_standalone PRIVATE RAII_STANDALONE)
 
+# Sub-projects (each has its own src/, include/, CMakeLists.txt)
+add_subdirectory(projects)
+
 # Optional: Add tests if using a testing framework
 # enable_testing()
 # add_subdirectory(tests)
