@@ -1,6 +1,7 @@
 #include "LinkedList.h"
 #include <cstddef>
 #include <iostream>
+#include <ostream>
 
 void LinkedList::push_front(int value) {
   Node *new_node = new Node;
@@ -60,13 +61,19 @@ void LinkedList::push_back(int value) {
   }
 }
 
-void LinkedList::print() {
-  Node *curr = head_;
+std::ostream &operator<<(std::ostream &os, const LinkedList &list) {
+  Node *curr = list.head_;
+  os << "[";
 
   while (curr) {
-    std::cout << "Node: " << curr << "Value: " << curr->value << std::endl;
+    os << "(" << curr << ":" << curr->value << ")";
+    if (curr->next) {
+      os << "->";
+    }
     curr = curr->next;
   }
+  os << "]";
+  return os;
 }
 
 LinkedList::~LinkedList() {
@@ -76,6 +83,7 @@ LinkedList::~LinkedList() {
     curr = curr->next;
     delete temp;
   }
+  std::cerr << "Destroying list head = " << head_ << std::endl;
 }
 
 LinkedList::LinkedList(const LinkedList &other) : head_(nullptr) {
@@ -111,10 +119,56 @@ LinkedList &LinkedList::operator=(const LinkedList &other) {
 
   head_ = new Node{other.head_->value, nullptr};
   Node *tail = head_;
+  Node *src = other.head_->next;
 
-  while (curr) {
-    tail->next = new Node{curr->value, nullptr};
+  while (src) {
+    tail->next = new Node{src->value, nullptr};
     tail = tail->next;
-    curr = curr->next;
+    src = src->next;
   }
+  return *this;
+}
+
+LinkedList::LinkedList(LinkedList &&other) noexcept : head_(other.head_) {
+  // so imagien if it's LL a(std::move(b)) we have to free the memory of b
+  other.head_ = nullptr;
+}
+
+LinkedList &LinkedList::operator=(LinkedList &&other) noexcept {
+  if (this == &other)
+    return *this;
+  // clear current list
+  Node *curr = head_;
+  while (curr) {
+    Node *temp = curr;
+    curr = curr->next;
+    delete temp;
+  }
+
+  // move the contents
+  head_ = other.head_;
+  other.head_ = nullptr;
+
+  return *this;
+}
+
+int main() {
+
+  LinkedList a;
+  a.push_back(5);
+  a.push_back(10);
+  a.push_front(15);
+  std::cout << a << std::endl;
+
+  LinkedList b = a;
+  LinkedList c = std::move(a);
+
+  std::cout << b << std::endl;
+  std::cout << c << std::endl;
+
+  LinkedList d;
+  d = std::move(c);
+  std::cout << d << std::endl;
+
+  return 0;
 }
