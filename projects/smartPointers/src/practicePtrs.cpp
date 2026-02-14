@@ -38,36 +38,31 @@ struct nonOwningCache {
 
 int main() {
   nonOwningCache c;
-  auto p = std::make_shared<Data>(7);
 
-  std::cout << "Use count after make_share nonOwning: " << p.use_count()
-            << "\n";
+  { // Create a scope
+    auto p = std::make_shared<Data>(7);
+    std::cout << "Use count: " << p.use_count() << "\n";
+    c.put(1, p);
+    std::cout << "After cache.put: " << p.use_count() << "\n";
+  } // <-- p goes out of scope here!
 
-  c.put(1, p);
-  std::cout << "Use count after putting into nonOwning cache " << p.use_count()
-            << "\n";
-  p.reset();
-  std::cout << "Objedt Got destroyed, count = " << p.use_count() << "\n";
-
+  std::cout << "After scope ended:\n";
   auto q = c.get(1);
   std::cout << "cache.get(1) is " << (q ? "alive\n" : "expired\n");
 
+  std::cout << "\n--- Now with OwningCache ---\n";
+
   OwningCache o;
-  auto x = std::make_shared<Data>(10);
-  std::cout << "Use count after make_share Owning: " << x.use_count() << "\n";
-  o.put(1, x);
-  std::cout << "Use count after putting into owning cache " << x.use_count()
-            << "\n";
+  {
+    auto x = std::make_shared<Data>(10);
+    std::cout << "Use count: " << x.use_count() << "\n";
+    o.put(1, x);
+    std::cout << "After cache.put: " << x.use_count() << "\n";
+  } // <-- x goes out of scope here!
 
-  x.reset();
-  std::cout << "Objedt Got destroyed, count = " << x.use_count() << "\n";
-
+  std::cout << "After scope ended:\n";
   auto y = o.get(1);
-  std::cout << "y is " << (y ? "alive\n" : "null\n");
-  std::cout << "y.use_count = " << y.use_count() << "\n";
-
-  o.m.erase(1);
-  std::cout << "Objedt Got erased, count = " << x.use_count() << "\n";
+  std::cout << "cache.get(1) is " << (y ? "alive\n" : "null\n");
 
   return 0;
 }
