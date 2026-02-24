@@ -37,7 +37,15 @@ list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/vectors\\.cpp$")
 list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/unorderedMap\\.cpp$")
 
 # Create executable
-add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${HEADERS})
+
+file(GLOB TEST_SOURCES "*.cpp")
+if(TEST_SOURCES)
+    add_executable(all_tests ${TEST_SOURCES})
+endif()
+
+#add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${HEADERS}
+        #src/MyVector.cpp
+        #tests/test_myvector.cpp)
 
 # Standalone target for debugging single files (e.g. RAII.cpp)
 add_executable(RAII_standalone src/RAII.cpp)
@@ -46,9 +54,13 @@ target_compile_definitions(RAII_standalone PRIVATE RAII_STANDALONE)
 # Sub-projects (each has its own src/, include/, CMakeLists.txt)
 add_subdirectory(projects)
 
-# Optional: Add tests if using a testing framework
-# enable_testing()
-# add_subdirectory(tests)
+# Testing
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
 
 # Installation (optional)
-install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+if(TARGET ${PROJECT_NAME})
+    install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+endif()

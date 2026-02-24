@@ -87,4 +87,20 @@ target_link_libraries(${PROJECT_NAME} Boost::system Boost::filesystem)
 
 ## Testing
 
-To add tests, uncomment the testing section in `CMakeLists.txt` and add test files to `tests/`.
+GoogleTest is wired through `tests/CMakeLists.txt`.
+
+1. Configure with tests enabled:
+```bash
+cmake -S . -B cmake-build-debug -DBUILD_TESTING=ON
+```
+2. Build the test target:
+```bash
+cmake --build cmake-build-debug --target lru_cache_tests
+```
+3. Run tests:
+```bash
+cd cmake-build-debug && ctest --output-on-failure
+```
+
+If `GTest` is already installed on your machine, CMake will use it.
+Otherwise CMake downloads GoogleTest from GitHub during configure.
